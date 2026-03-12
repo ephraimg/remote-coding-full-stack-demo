@@ -1,0 +1,28 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.production
+.env.development.local
+.env.production.local
+*.log
+.DS_Store
+.vscode/
+.idea/
+build/
+
+# Claude Code (but keep .claude/skills/ and .claude/memory/ - those are committed)
+.claude/*
+!.claude/skills/
+!.claude/memory/
+
+# Secrets
+.secrets
+config/secrets.sh
+
+# Vite env files (except .env.example)
+client/.env
+client/.env.local
+client/.env.production
+client/.env.development.local

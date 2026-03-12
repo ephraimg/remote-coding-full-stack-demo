@@ -1,0 +1,59 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    # This runs on GitHub's servers (NOT your EC2!)
+    # GitHub provides free Ubuntu runners for building
+    # Then we SSH to your EC2 to deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install client dependencies
+        run: |
+          cd client
+          npm ci
+
+      - name: Build React app
+        run: |
+          cd client
+          npm run build
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/projects/remote-coding-full-stack-demo
+            git pull origin main
+            cd server
+            npm install --production
+            npm run build
+            cd ..
+            pm2 restart xrp-demo || pm2 start ecosystem.config.js
+            echo "✅ Deployment complete!"
+            pm2 status
+
+      - name: Verify deployment
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            curl -f http://localhost:3000/health || exit 1
+            echo "✅ Health check passed"
