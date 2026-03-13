@@ -5,14 +5,14 @@ set -e
 cd "$(dirname "$0")"
 
 echo "📦 Installing dependencies..."
-cd client && npm install || { echo "❌ Client npm install failed"; exit 1; }
-cd ../server && npm install || { echo "❌ Server npm install failed"; exit 1; }
+cd client && yarn install --frozen-lockfile || { echo "❌ Client yarn install failed"; exit 1; }
+cd ../server && yarn install --frozen-lockfile || { echo "❌ Server yarn install failed"; exit 1; }
 
 echo "🔨 Building React app..."
-cd ../client && npm run build || { echo "❌ React build failed"; exit 1; }
+cd ../client && yarn build || { echo "❌ React build failed"; exit 1; }
 
 echo "🔨 Building server..."
-cd ../server && npm run build || { echo "❌ Server build failed"; exit 1; }
+cd ../server && yarn build || { echo "❌ Server build failed"; exit 1; }
 
 echo "♻️  Restarting PM2..."
 cd ..

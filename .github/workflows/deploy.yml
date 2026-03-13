@@ -54,7 +54,7 @@ jobs:
             fi
 
             cd server
-            yarn install --production --frozen-lockfile
+            yarn install --frozen-lockfile
             yarn build
             cd ..
             pm2 restart xrp-demo || pm2 start ecosystem.config.js
