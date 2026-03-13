@@ -70,8 +70,10 @@ router.get('/payment-qr/:address', (req: Request, res: Response) => {
   const { address } = req.params;
   const amount = (req.query.amount as string) || '10'; // Default 10 XRP
 
-  // XRP URI format for QR codes
-  const paymentUri = `https://xrpl.org/?to=${address}&amount=${amount}`;
+  // XRP URI format for wallet apps (Xaman, etc.)
+  // Standard format: xrp:ADDRESS?amount=AMOUNT
+  // This opens directly in XRP wallet apps when scanned
+  const paymentUri = `xrp:${address}?amount=${amount}`;
 
   const response: PaymentQRResponse = {
     uri: paymentUri,
