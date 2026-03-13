@@ -28,6 +28,11 @@ jobs:
           cd client
           yarn install --frozen-lockfile
 
+      - name: Create .env file for build
+        run: |
+          cd client
+          echo "VITE_EXAMPLE_XRP_ADDRESS=${{ secrets.VITE_EXAMPLE_XRP_ADDRESS }}" > .env
+
       - name: Build React app
         run: |
           cd client
@@ -42,6 +47,12 @@ jobs:
           script: |
             cd ~/projects/remote-coding-full-stack-demo
             git pull origin main
+
+            # Create .env file for client if it doesn't exist
+            if [ ! -f client/.env ]; then
+              echo "VITE_EXAMPLE_XRP_ADDRESS=${{ secrets.VITE_EXAMPLE_XRP_ADDRESS }}" > client/.env
+            fi
+
             cd server
             yarn install --production --frozen-lockfile
             yarn build
