@@ -9,11 +9,17 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "qrcode.react": "^4.0.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "qrcode.react": "^4.0.1"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "@types/babel__generator": "^7.27.0",
+    "@types/babel__template": "^7.4.4",
+    "@types/babel__traverse": "^7.28.0",
+    "@types/estree": "^1.0.8",
+    "@types/prop-types": "^15.7.15",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
